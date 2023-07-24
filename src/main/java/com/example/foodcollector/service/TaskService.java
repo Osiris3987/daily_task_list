@@ -8,7 +8,7 @@ public interface TaskService {
     Task getById(Long id);
     List<Task> getAllByUserId(Long id);
     void assignToUserById(Long taskId, Long userId);
-    void update(Task task);
-    void create(Task task);
-    void delete(Task task);
+    Task update(Task task);
+    Task create(Task task, Long id);
+    void delete(Long id);
 }

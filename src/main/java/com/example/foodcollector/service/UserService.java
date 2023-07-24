@@ -3,7 +3,7 @@ package com.example.foodcollector.service;
 import com.example.foodcollector.domain.user.User;
 
 public interface UserService {
-    User getUserById(Long id);
+    User getById(Long id);
     User getByUserName(String userName);
     User create(User user);
     User update(User user);

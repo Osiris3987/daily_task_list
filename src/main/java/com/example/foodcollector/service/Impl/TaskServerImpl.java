@@ -24,17 +24,17 @@ public class TaskServerImpl implements TaskService {
     }
 
     @Override
-    public void update(Task task) {
-
+    public Task update(Task task) {
+        return null;
     }
 
     @Override
-    public void create(Task task) {
-
+    public Task create(Task task, Long id) {
+        return null;
     }
 
     @Override
-    public void delete(Task task) {
+    public void delete(Long id) {
 
     }
 }
