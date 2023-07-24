@@ -5,7 +5,11 @@ import com.example.foodcollector.web.dto.validation.OnUpdate;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.Getter;
 import org.hibernate.validator.constraints.Length;
+
+import java.util.List;
+import java.util.Set;
 
 @Data
 public class User {
@@ -23,4 +27,5 @@ public class User {
     @NotNull(message = "Confirmation must be not null", groups = {OnCreate.class})
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String passwordConfirmation;
+    private Set<Role> roles;
 }
