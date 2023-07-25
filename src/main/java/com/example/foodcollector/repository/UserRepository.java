@@ -6,7 +6,7 @@ import com.example.foodcollector.domain.user.User;
 import java.util.Optional;
 
 public interface UserRepository {
-    Optional<User> findUserById(Long id);
+    Optional<User> findById(Long id);
     Optional<User> findUserByName(String userName);
     void update(User user);
     void create(User user);

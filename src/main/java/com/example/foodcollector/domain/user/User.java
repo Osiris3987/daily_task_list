@@ -1,5 +1,6 @@
 package com.example.foodcollector.domain.user;
 
+import com.example.foodcollector.domain.task.Task;
 import com.example.foodcollector.web.dto.validation.OnCreate;
 import com.example.foodcollector.web.dto.validation.OnUpdate;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -28,4 +29,5 @@ public class User {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String passwordConfirmation;
     private Set<Role> roles;
+    private List<Task> tasks;
 }
