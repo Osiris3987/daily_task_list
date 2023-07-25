@@ -22,7 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class ApplicationConfig {
     private final JwtTokenProvider tokenProvider;
-    private final ApplicationContext   wapplicationContext;
+    //private final ApplicationContext applicationContext;
 
     @Bean
     public PasswordEncoder passwordEncoder(){
