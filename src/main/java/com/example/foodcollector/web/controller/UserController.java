@@ -10,6 +10,7 @@ import com.example.foodcollector.web.dto.validation.OnCreate;
 import com.example.foodcollector.web.dto.validation.OnUpdate;
 import com.example.foodcollector.web.mapprs.TaskMapper;
 import com.example.foodcollector.web.mapprs.UserMapper;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,7 @@ import java.util.List;
 @RequestMapping("api/v1/users")
 @RequiredArgsConstructor
 @Validated
+@Tag(name = "User controller", description = "User API")
 public class UserController {
     private final UserService userService;
     private final TaskService taskService;

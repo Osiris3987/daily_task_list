@@ -6,8 +6,12 @@ spring:
     driver-class-name: org.postgresql.Driver
   sql:
     init:
-      mode: always
+      mode: never
       continue-on-error: false
+  liquibase:
+    change-log: classpath:liquibase/db.changelog.yaml
+    enabled: true
+    default-schema: tasklist
 security:
   jwt:
     secret: amF0amhvaWFob2loanE5ZXdqMDlyZWlvZmppZmppc2RqZnBkamZwb3Nkam9zZGZramZvcGpzZGY=
