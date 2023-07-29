@@ -77,9 +77,9 @@ public class JwtTokenProvider {
         Long userId = Long.valueOf(getId(refreshToken));
         User user = userService.getById(userId);
         jwtResponse.setId(userId);
-        jwtResponse.setUserName(user.getUserName());
-        jwtResponse.setAccessToken(createAccessToken(userId, user.getUserName(), user.getRoles()));
-        jwtResponse.setRefreshToken(createRefreshToken(userId, user.getUserName()));
+        jwtResponse.setUserName(user.getUsername());
+        jwtResponse.setAccessToken(createAccessToken(userId, user.getUsername(), user.getRoles()));
+        jwtResponse.setRefreshToken(createRefreshToken(userId, user.getUsername()));
         return jwtResponse;
     }
     public boolean validateToken(String token){

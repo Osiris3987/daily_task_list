@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 public class JwtEntityFactory {
     public static JwtEntity create(User user){
         return new JwtEntity(user.getId(),
-                user.getUserName(),
+                user.getUsername(),
                 user.getPassword(),
                 user.getPassword(),
                 mapToGrantedAuthorities(new ArrayList<>(user.getRoles()))

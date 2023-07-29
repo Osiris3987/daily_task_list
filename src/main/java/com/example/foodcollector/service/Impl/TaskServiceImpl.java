@@ -3,8 +3,10 @@ package com.example.foodcollector.service.Impl;
 import com.example.foodcollector.domain.exception.ResourceNotFoundException;
 import com.example.foodcollector.domain.task.Status;
 import com.example.foodcollector.domain.task.Task;
+import com.example.foodcollector.domain.user.User;
 import com.example.foodcollector.repository.TaskRepository;
 import com.example.foodcollector.service.TaskService;
+import com.example.foodcollector.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,10 +17,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
+    private final UserService userService;
     @Override
     @Transactional(readOnly = true)
     public Task getById(Long id) {
-        return taskRepository.findTaskById(id)
+        return taskRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Task not found."));
     }
 
@@ -34,22 +37,23 @@ public class TaskServiceImpl implements TaskService {
         if(task.getStatus() == null){
             task.setStatus(Status.TODO);
         }
-        taskRepository.update(task);
+        taskRepository.save(task);
         return task;
     }
 
     @Override
     @Transactional
     public Task create(Task task, Long userId) {
+        User user = userService.getById(userId);
         task.setStatus(Status.TODO);
-        taskRepository.create(task);
-        taskRepository.assignToUserById(task.getId(), userId);
+        user.getTask().add(task);
+        userService.update(user);
         return task;
     }
 
     @Override
     @Transactional
     public void delete(Long id) {
-        taskRepository.delete(id);
+        taskRepository.deleteById(id);
     }
 }

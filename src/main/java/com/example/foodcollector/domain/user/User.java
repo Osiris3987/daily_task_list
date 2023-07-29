@@ -1,33 +1,36 @@
 package com.example.foodcollector.domain.user;
 
 import com.example.foodcollector.domain.task.Task;
-import com.example.foodcollector.web.dto.validation.OnCreate;
-import com.example.foodcollector.web.dto.validation.OnUpdate;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-import org.hibernate.validator.constraints.Length;
-
+import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
+@Entity
+@Table(name = "users")
 @Data
-public class User {
-    @NotNull(message = "Id must be not null", groups = OnUpdate.class)
+public class User implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull(message = "Name must be not null", groups = {OnUpdate.class, OnUpdate.class})
-    @Length(max = 255, message = "Name must be smaller than 255 symbols", groups = {OnCreate.class, OnUpdate.class})
+
     private String name;
-    @NotNull(message = "UserName must be not null", groups = {OnUpdate.class, OnUpdate.class})
-    @Length(max = 255, message = "UserName must be smaller than 255 symbols", groups = {OnCreate.class, OnUpdate.class})
-    private String userName;
-    @NotNull(message = "Password must be not null", groups = {OnUpdate.class, OnCreate.class})
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String username;
     private String password;
-    @NotNull(message = "Confirmation must be not null", groups = {OnCreate.class})
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+
+    @Transient
     private String passwordConfirmation;
+
+    @Column(name = "role")
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "users_roles")
+    @Enumerated(value = EnumType.STRING)
     private Set<Role> roles;
-    private List<Task> tasks;
+
+    @CollectionTable(name = "users_tasks")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "task_id")
+    private List<Task> task;
 }

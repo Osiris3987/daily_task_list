@@ -23,10 +23,10 @@ public class AuthServiceImpl implements AuthService {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUserName(), loginRequest.getPassword()));
         User user = userService.getByUserName(loginRequest.getUserName());
         jwtResponse.setId(user.getId());
-        jwtResponse.setUserName(user.getUserName());
+        jwtResponse.setUserName(user.getUsername());
         jwtResponse.setName(user.getName());
-        jwtResponse.setAccessToken(jwtTokenProvider.createAccessToken(user.getId(), user.getUserName(), user.getRoles()));
-        jwtResponse.setRefreshToken(jwtTokenProvider.createRefreshToken(user.getId(), user.getUserName()));
+        jwtResponse.setAccessToken(jwtTokenProvider.createAccessToken(user.getId(), user.getUsername(), user.getRoles()));
+        jwtResponse.setRefreshToken(jwtTokenProvider.createRefreshToken(user.getId(), user.getUsername()));
         return jwtResponse;
     }
 

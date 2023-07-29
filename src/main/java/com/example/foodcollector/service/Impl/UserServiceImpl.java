@@ -27,24 +27,25 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public User getByUserName(String userName) {
-        return userRepository.findUserByName(userName)
+        return userRepository.findByUsername(userName)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 
     @Override
     @Transactional
     public User create(User user) {
-        if(userRepository.findUserByName(user.getUserName()).isPresent()){
+        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
             throw new IllegalStateException("User already exists.");
         }
-        if(!user.getPassword().equals(user.getPasswordConfirmation())){
-            throw new IllegalStateException("Password and password confirmation do not match.");
+        if (!user.getPassword().equals(user.getPasswordConfirmation())) {
+            throw new IllegalStateException(
+                    "Password and password confirmation do not match."
+            );
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.create(user);
         Set<Role> roles = Set.of(Role.ROLE_USER);
-        userRepository.insertUserRole(user.getId(), Role.ROLE_USER);
         user.setRoles(roles);
+        userRepository.save(user);
         return user;
     }
 
@@ -52,7 +53,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public User update(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.update(user);
+        userRepository.save(user);
         return user;
     }
 
@@ -65,6 +66,6 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void delete(Long id) {
-        userRepository.delete(id);
+        userRepository.deleteById(id);
     }
 }
