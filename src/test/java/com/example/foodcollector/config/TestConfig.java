@@ -70,7 +70,7 @@ public class TestConfig {
     @Bean
     @Primary
     public TaskServiceImpl taskService() {
-        return new TaskServiceImpl(taskRepository, userService());
+        return new TaskServiceImpl(taskRepository);
     }
 
     @Bean

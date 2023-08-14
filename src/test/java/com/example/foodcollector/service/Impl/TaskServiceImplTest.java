@@ -4,12 +4,13 @@ import com.example.foodcollector.config.TestConfig;
 import com.example.foodcollector.domain.exception.ResourceNotFoundException;
 import com.example.foodcollector.domain.task.Status;
 import com.example.foodcollector.domain.task.Task;
+import com.example.foodcollector.domain.user.User;
 import com.example.foodcollector.repository.TaskRepository;
 import com.example.foodcollector.repository.UserRepository;
+import com.example.foodcollector.service.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,9 @@ public class TaskServiceImplTest {
 
     @MockBean
     private AuthenticationManager authenticationManager;
+
+    @MockBean
+    private UserServiceImpl userService;
 
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
@@ -101,4 +105,27 @@ public class TaskServiceImplTest {
         Assertions.assertEquals(testTask.getStatus(), Status.TODO);
     }
 
+    @Test
+    void create() {
+        Long userId = 1L;
+        Long taskId = 1L;
+        Task task = new Task();
+        Mockito.doAnswer(invocation -> {
+                    Task savedTask = invocation.getArgument(0);
+                    savedTask.setId(taskId);
+                    return savedTask;
+                })
+                .when(taskRepository).save(task);
+        Task testTask = taskService.create(task, userId);
+        Mockito.verify(taskRepository).save(task);
+        Assertions.assertNotNull(testTask.getId());
+        Mockito.verify(taskRepository).assignTask(userId, task.getId());
+    }
+
+    @Test
+    void delete() {
+        Long id = 1L;
+        taskService.delete(id);
+        Mockito.verify(taskRepository).deleteById(id);
+    }
 }

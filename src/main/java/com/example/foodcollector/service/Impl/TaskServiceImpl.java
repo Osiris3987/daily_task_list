@@ -17,7 +17,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
-    private final UserService userService;
     @Override
     @Transactional(readOnly = true)
     public Task getById(Long id) {
@@ -43,11 +42,10 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional
-    public Task create(Task task, Long userId) {
-        User user = userService.getById(userId);
+    public Task create(final Task task, final Long userId) {
         task.setStatus(Status.TODO);
-        user.getTask().add(task);
-        userService.update(user);
+        taskRepository.save(task);
+        taskRepository.assignTask(userId, task.getId());
         return task;
     }
 
