@@ -10,12 +10,11 @@ import java.util.Collection;
 @Data
 @AllArgsConstructor
 public class JwtEntity implements UserDetails {
-    private Long id;
     private final String userName;
     private final String name;
     private final String password;
     private final Collection<? extends GrantedAuthority> authorities;
-
+    private Long id;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

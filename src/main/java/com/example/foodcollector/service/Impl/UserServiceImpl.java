@@ -1,15 +1,18 @@
 package com.example.foodcollector.service.Impl;
 
+import com.example.foodcollector.domain.MailType;
 import com.example.foodcollector.domain.exception.ResourceNotFoundException;
 import com.example.foodcollector.domain.user.Role;
 import com.example.foodcollector.domain.user.User;
 import com.example.foodcollector.repository.UserRepository;
+import com.example.foodcollector.service.MailService;
 import com.example.foodcollector.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Properties;
 import java.util.Set;
 
 @Service
@@ -17,6 +20,8 @@ import java.util.Set;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final MailService mailService;
+
     @Override
     @Transactional(readOnly = true)
     public User getById(Long id) {
@@ -28,6 +33,13 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public User getByUserName(String userName) {
         return userRepository.findByUsername(userName)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public User getTaskAuthor(Long taskId) {
+        return userRepository.findTaskAuthor(taskId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 
@@ -46,6 +58,7 @@ public class UserServiceImpl implements UserService {
         Set<Role> roles = Set.of(Role.ROLE_USER);
         user.setRoles(roles);
         userRepository.save(user);
+        mailService.sendMail(user, MailType.REGISTRATION, new Properties());
         return user;
     }
 

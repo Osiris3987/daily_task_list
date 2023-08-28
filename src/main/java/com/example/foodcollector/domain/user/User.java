@@ -3,6 +3,7 @@ package com.example.foodcollector.domain.user;
 import com.example.foodcollector.domain.task.Task;
 import jakarta.persistence.*;
 import lombok.Data;
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.Set;

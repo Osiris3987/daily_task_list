@@ -1,4 +1,5 @@
 package com.example.foodcollector.web.dto.user;
+
 import com.example.foodcollector.web.dto.validation.OnCreate;
 import com.example.foodcollector.web.dto.validation.OnUpdate;
 import com.fasterxml.jackson.annotation.JsonProperty;

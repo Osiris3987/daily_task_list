@@ -4,10 +4,8 @@ import com.example.foodcollector.config.TestConfig;
 import com.example.foodcollector.domain.exception.ResourceNotFoundException;
 import com.example.foodcollector.domain.task.Status;
 import com.example.foodcollector.domain.task.Task;
-import com.example.foodcollector.domain.user.User;
 import com.example.foodcollector.repository.TaskRepository;
 import com.example.foodcollector.repository.UserRepository;
-import com.example.foodcollector.service.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -40,9 +38,6 @@ public class TaskServiceImplTest {
     @MockBean
     private AuthenticationManager authenticationManager;
 
-    @MockBean
-    private UserServiceImpl userService;
-
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private TaskServiceImpl taskService;
@@ -60,7 +55,7 @@ public class TaskServiceImplTest {
     }
 
     @Test
-    void getByIdWithNoExistingId(){
+    void getByIdWithNoExistingId() {
         Long id = 1L;
         Mockito.when(taskRepository.findById(id)).thenReturn(Optional.empty());
         Assertions.assertThrows(ResourceNotFoundException.class, () -> taskService.getById(id));
@@ -68,10 +63,10 @@ public class TaskServiceImplTest {
     }
 
     @Test
-    void getAllByUserId(){
+    void getAllByUserId() {
         Long userId = 1L;
         List<Task> tasks = new ArrayList<>();
-        for(int i = 0; i < 5; i++){
+        for (int i = 0; i < 5; i++) {
             tasks.add(new Task());
         }
         Mockito.when(taskRepository.findAllByUserId(1L)).thenReturn(tasks);
@@ -81,7 +76,7 @@ public class TaskServiceImplTest {
     }
 
     @Test
-    void update(){
+    void update() {
         Task task = new Task();
         task.setId(1L);
         task.setTitle("watch smth");
@@ -94,7 +89,7 @@ public class TaskServiceImplTest {
     }
 
     @Test
-    void updateWithEmptyStatus(){
+    void updateWithEmptyStatus() {
         Task task = new Task();
         task.setId(1L);
         task.setTitle("watch smth");
