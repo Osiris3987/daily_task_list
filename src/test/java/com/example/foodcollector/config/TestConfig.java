@@ -3,17 +3,20 @@ package com.example.foodcollector.config;
 import com.example.foodcollector.repository.TaskRepository;
 import com.example.foodcollector.repository.UserRepository;
 import com.example.foodcollector.service.Impl.AuthServiceImpl;
+import com.example.foodcollector.service.Impl.MailServiceImpl;
 import com.example.foodcollector.service.Impl.TaskServiceImpl;
 import com.example.foodcollector.service.Impl.UserServiceImpl;
 import com.example.foodcollector.service.props.JwtProperties;
 import com.example.foodcollector.web.security.JtwUsersDetailsService;
 import com.example.foodcollector.web.security.JwtTokenProvider;
+import freemarker.template.Configuration;
 import lombok.RequiredArgsConstructor;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -63,8 +66,19 @@ public class TestConfig {
     public UserServiceImpl userService() {
         return new UserServiceImpl(
                 userRepository,
-                testPasswordEncoder()
+                testPasswordEncoder(), mailService()
         );
+    }
+    @Bean
+    @Primary
+    public MailServiceImpl mailService(){
+        return new MailServiceImpl(configuration(), mailSender());
+    }
+
+    @Bean
+    @Primary
+    public JavaMailSender mailSender(){
+        return Mockito.mock(JavaMailSenderImpl.class);
     }
 
     @Bean

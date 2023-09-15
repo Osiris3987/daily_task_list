@@ -10,10 +10,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @EnableJpaRepositories
 @EnableScheduling
-public class FoodCollectorApplication {
+public class DailyTaskListApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(FoodCollectorApplication.class, args);
+        SpringApplication.run(DailyTaskListApplication.class, args);
     }
 
 }
