@@ -4,6 +4,7 @@ import com.example.foodcollector.domain.exception.AccessDeniedException;
 import com.example.foodcollector.domain.exception.ExceptionBody;
 import com.example.foodcollector.domain.exception.ResourceMappingException;
 import com.example.foodcollector.domain.exception.ResourceNotFoundException;
+import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
@@ -57,7 +58,7 @@ public class ExceptionHandlerController {
         ExceptionBody exceptionBody = new ExceptionBody("Validation was not success.");
         exceptionBody.setErrors(e.getConstraintViolations().stream()
                 .collect(Collectors.toMap(violation -> violation.getPropertyPath().toString(),
-                        violation -> violation.getMessage())));
+                        ConstraintViolation::getMessage)));
         return exceptionBody;
     }
 
